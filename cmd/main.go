@@ -9,9 +9,11 @@ import (
 )
 
 func main() {
-	webserver := webserver.NewWebServer(configs.GetWebServerPort())
+	cfg := configs.LoadConfig[configs.Conf](".")
+
+	webserver := webserver.NewWebServer(cfg.WebServerPort)
 	webWeatherHandler := web.NewWebWeatherHandler()
 	webserver.AddHandler("/weather", webWeatherHandler.Get)
-	fmt.Println("Starting web server on port", configs.GetWebServerPort())
+	fmt.Println("Starting web server on port", cfg.WebServerPort)
 	webserver.Start()
 }
